@@ -1,9 +1,9 @@
 <template>
-  <div class="hello">Impressum</div>
+    <div class="hello">Impressum</div>
 </template>
 
 <script>
-export default {
-  name: "Imprint"
-};
+    export default {
+        name: "Imprint"
+    };
 </script>

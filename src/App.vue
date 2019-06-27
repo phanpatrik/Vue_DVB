@@ -3,7 +3,7 @@
     <nav id="app-nav">
       <ul>
         <router-link tag="li" active-class="active" to="/">
-          <a>Home</a>
+          <a>Nächste Abfahrt 🚌</a>
         </router-link>
 
         <router-link tag="li" active-class="active" to="/imprint">
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-export default {
-  name: "App"
-};
+  export default {
+    name: "App"
+  };
 </script>
