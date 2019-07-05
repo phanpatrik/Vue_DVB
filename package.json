@@ -19,5 +19,9 @@
     "@vue/cli-service": "3.6.0",
     "vue-template-compiler": "^2.5.21"
   },
-  "keywords": ["vue", "dvb", "wtfkurse"]
+  "keywords": [
+    "vue",
+    "dvb",
+    "wtfkurse"
+  ]
 }
