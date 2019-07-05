@@ -9,6 +9,10 @@
         <router-link tag="li" active-class="active" to="/imprint">
           <a>Impressum</a>
         </router-link>
+
+        <router-link tag="li" active-class="active" to="/trips">
+          <a>Trips</a>
+        </router-link>
       </ul>
     </nav>
 

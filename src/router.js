@@ -15,6 +15,11 @@ export default new Router({
       path: "/imprint",
       name: "imprint",
       component: () => import("@/components/Imprint")
+    },
+    {
+      path: "/trips",
+      name: "trips",
+      component: () => import("@/components/Trips")
     }
   ]
 });

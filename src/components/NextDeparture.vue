@@ -64,7 +64,6 @@ export default {
       isEmpty: null
     };
   },
-  created: function() {},
   methods: {
     getStop: function() {
       const vm = this;
