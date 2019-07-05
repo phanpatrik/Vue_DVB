@@ -15,13 +15,16 @@
     </form>
 
     <br />
+    <!-- mustache-syntax ( {{}} )  wacht über die Variable und gibt ihren Wert auch bei Veränderungen wieder-->
     <p class="fromTto">
       Von: {{ output.stopStartName }} ---> Nach: {{ output.stopTarName }}
     </p>
 
     <ul>
+      <!-- gibt die nächsten Verbindunginfos aus-->
       <li v-for="tripRoute in tripRoutes">
         Preis: {{ tripRoute.Price }} €
+        <!-- gibt Infos zu einer einzelnen Verbindungsmöglichkeit aus -->
         <div v-for="motLink in tripRoute.MotChain">
           Linie: {{ motLink.Name }} / Richtung: {{ motLink.Direction }}<br />
           Typ: {{ motLink.Type }}
@@ -35,6 +38,8 @@
 const axios = require("axios");
 export default {
   name: "Trips",
+  // in componenten muss data eine Funktion sein
+  // sie bindet die Daten an die aktuelle Instanz
   data: function() {
     return {
       input: {
@@ -48,9 +53,14 @@ export default {
       tripRoutes: []
     };
   },
+  // hier kann man Methoden definieren, die von Lebenzyklen, UI oder andere Methoden aufgerufen werden sollen
   methods: {
+    // wird durch button-click ausgeführt, der Zusatz async ist notwendig um mit await zu arbeiten
     getStops: async function() {
+      // vm = ViewModel, wird für Referezen auf die Vue-Instanz genutzt
       const vm = this;
+
+      // API-Call , wertet anschließend das Ergebnis aus und filtert die StopId und den vollständigen Namen
       var path =
         "https://webapi.vvo-online.de/tr/pointfinder?format=json&query=" +
         vm.input.stopStart.toString() +
@@ -73,6 +83,7 @@ export default {
 
       vm.getDepartureInfos(stopStartId, stopTarId);
     },
+
     getDepartureInfos: async function(stopStartId, stopTarId) {
       const vm = this;
       var path =

@@ -8,12 +8,12 @@
     </form>
 
     <br />
-
+    <!-- wird nur gerendert wenn v-if true ist, sonst rendert das nächste <div>, dient zur Validierung -->
     <div class="warning" v-if="isEmpty">
       Bitte gib eine Haltestelle ein!
     </div>
 
-    <div class="output" v-if="output.stopName">
+    <div class="output" v-else>
       <table align="center">
         <tr>
           <td>Haltestelle:</td>
@@ -50,6 +50,7 @@ export default {
   name: "NextDeparture",
   data: function() {
     return {
+      // fasst alle input und output-Feldern zu Objekten zusammen
       input: {
         stop: null
       },
@@ -65,8 +66,10 @@ export default {
     };
   },
   methods: {
+    // sucht via API nach der eingegeben Station
     getStop: function() {
       const vm = this;
+      // Validierung
       if (
         vm.input.stop == "" ||
         vm.input.stop == null ||
@@ -76,10 +79,12 @@ export default {
         return;
       }
       vm.isEmpty = false;
+      // dynamischer Pfad basierend auf Eingabe
       const path =
         "https://webapi.vvo-online.de/tr/pointfinder?format=json&query=" +
         vm.input.stop.toString() +
         "&stopsOnly=true";
+      // API-Call mittels Callback, stopId wird gefiltert
       axios
         .get(path)
         .then(function(response) {
@@ -92,6 +97,7 @@ export default {
           console.log(error);
         });
     },
+    // Nun haben wir die stopId und suchen mit ihr nach der nächsten Abfahrt
     getDepartureInfos: function(stopId) {
       let vm = this;
       const path =
@@ -100,6 +106,7 @@ export default {
       axios
         .get(path)
         .then(function(response) {
+          // Zuweisung der Instanzvariablen mit den zurückgelieferten Werten der API
           vm.output.stopName = response.data.Name;
           vm.output.platform = response.data.Departures[0].Platform.Name;
           vm.output.realTime = vm.convertTimestamp(
@@ -109,6 +116,7 @@ export default {
             response.data.Departures[0].ScheduledTime
           );
           vm.output.typ = response.data.Departures[0].Mot;
+          // checkt, ob der Zeitplan nach Plan verläuft
           if (response.data.Departures[0].State == "InTime") {
             vm.output.isInTime = "Läuft nach Plan - Manni ist zufrieden :) .";
           } else if (response.data.Departures[0].State == "Delayed") {
@@ -122,7 +130,7 @@ export default {
           console.log(error);
         });
     },
-
+    // formatiert den empfangenen timestamp in einer lesbaren Uhrzeit
     convertTimestamp: function(unix_timestamp_string) {
       let unix_timestamp = parseInt(unix_timestamp_string.substr(6, 10));
       console.log(unix_timestamp);
